@@ -1,8 +1,8 @@
 # EncoreDNM
-EncoreDNM is a powerful method to estimate concordant de novo mutation associations between disorders. 
+EncoreDNM is a powerful method to estimate concordant de novo mutation (DNM) associations between disorders. 
 
 ## Before starting
-EncoreDNM is built upon `R`, make sure that your R-version is no less than 3.5.0, and the R-package `mvtnorm` is required to generate multivariate normal random vectors. 
+EncoreDNM is built upon `R`. The R-package `mvtnorm` is required to generate multivariate normal random vectors. 
 
 ## Tutorial
 First download EncoreDNM and the corresponding data.
@@ -10,7 +10,7 @@ First download EncoreDNM and the corresponding data.
     git clone git@github.com:ghm17/EncoreDNM.git
 
 **All the following steps should be carried out under the `./EncoreDNM` directory!** Suppose we would like to estimate enrichment correlation between two disorders, e.g. developmental disorder (DD) and autism spectrum disorder (ASD). We need to prepare the following files:
-* Two DNM summary data files: We have prepared the example data for you in the directory `./example/DD.txt` and `./example/ASD.txt`. The DNM summary data files need to be transformed into the standard format by yourself. The first few lines should look like this: 
+* Two DNM summary data files: We have prepared the example data for you in `./example/DD.txt` and `./example/ASD.txt`. The DNM summary data files need to be transformed into the standard format by yourself. The first few lines should look like this: 
 
       head DD.txt
       
@@ -23,7 +23,7 @@ First download EncoreDNM and the corresponding data.
       10 ACADSB 0 2 1 1
 
 The first two columns denote chromosome and gene name, the following columns denote different variant classes which can be user-defined (as long as to be consistent with variant classes defined in the mutability table). 
-* Mutability table: We have prepared the example data for you in the directory `./example/mutability_table.txt`. The mutability table also needs to be transformed into the standard format by yourself. The first few lines should look like this: 
+* Mutability table: We have prepared the example data for you in `./example/mutability_table.txt`. The mutability table also needs to be transformed into the standard format by yourself. The first few lines should look like this: 
 
       head mutability_table.txt
 
