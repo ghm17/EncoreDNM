@@ -2,7 +2,7 @@
 EncoreDNM is a powerful method to estimate concordant de novo mutation (DNM) associations between disorders. 
 
 ## Before starting
-EncoreDNM is built upon `R`. The R-package `mvtnorm` is required to generate multivariate normal random vectors. 
+EncoreDNM is built upon `R`. The R-package `mvtnorm` is required to generate multivariate normal random vectors, and the R-package `snowfall` is required for parallel computing. 
 
 ## Tutorial
 First download EncoreDNM and the corresponding data.
