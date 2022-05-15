@@ -2,7 +2,7 @@
 EncoreDNM is a powerful method to estimate concordant de novo mutation (DNM) associations between disorders. 
 
 ## Before starting
-EncoreDNM is built upon `R`. The R-package `mvtnorm` is required to generate multivariate normal random vectors. 
+EncoreDNM is built upon `R`. The R-package `mvtnorm` is required to generate multivariate normal random vectors, and the R-package `snowfall` is required for parallel computing. 
 
 ## Tutorial
 First download EncoreDNM and the corresponding data.
@@ -48,10 +48,10 @@ After running the above step, EncoreDNM outputs a text file `DD_single_disorder_
 
 * `variant_class`: e.g. lof, Dmis, Tmis, syn. 
 * `beta_est`: Estimated value for elevation parameter beta. 
-* `beta_sd`: Standard error for elevation parameter beta. 
+* `beta_se`: Standard error for elevation parameter beta. 
 * `beta_p`: Wald test p-value for elevation parameter beta. 
 * `sigma_est`: Estimated value for dispersion parameter sigma. 
-* `sigma_sd`: Standard error for dispersion parameter sigma. 
+* `sigma_se`: Standard error for dispersion parameter sigma. 
 * `sigma_p`: Wald test p-value for dispersion parameter sigma. 
 * `deviance_null`: The deviance between the mixed-effects Poisson model and the fixed-effects Poisson model.
 * `p_null`: The likelihood ratio test p-value between the mixed-effects Poisson model and the fixed-effects Poisson model. 
@@ -76,11 +76,11 @@ After running the above step, EncoreDNM outputs a text file `DD_single_disorder_
 * `sigma1_est`: Estimated value for dispersion parameter sigma in the first disorder. 
 * `sigma2_est`: Estimated value for dispersion parameter sigma in the second disorder. 
 * `rho_est`: Estimated value for enrichment correlation rho. 
-* `beta1_sd`: Standard error for elevation parameter beta in the first disorder. 
-* `beta2_sd`: Standard error for elevation parameter beta in the second disorder. 
-* `sigma1_sd`: Standard error for dispersion parameter sigma in the first disorder. 
-* `sigma2_sd`: Standard error for dispersion parameter sigma in the second disorder. 
-* `rho_sd`: Standard error for enrichment correlation rho. 
+* `beta1_se`: Standard error for elevation parameter beta in the first disorder. 
+* `beta2_se`: Standard error for elevation parameter beta in the second disorder. 
+* `sigma1_se`: Standard error for dispersion parameter sigma in the first disorder. 
+* `sigma2_se`: Standard error for dispersion parameter sigma in the second disorder. 
+* `rho_se`: Standard error for enrichment correlation rho. 
 * `beta1_p`: Wald test p-value for elevation parameter beta in the first disorder. 
 * `beta2_p`: Wald test p-value for elevation parameter beta in the second disorder. 
 * `sigma1_p`: Wald test p-value for dispersion parameter sigma in the first disorder. 
