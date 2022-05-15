@@ -10,7 +10,7 @@ option_list = list(
   make_option('--dat1_encorednm_single', action = 'store', default = NA, type = 'character'),
   make_option('--dat2_encorednm_single', action = 'store', default = NA, type = 'character'),
   make_option('--mut', action = 'store', default = NA, type = 'character'),
-  make_option('--dir_out', action = 'store', default = NA, type = 'character'),
+  make_option('--out', action = 'store', default = NA, type = 'character'),
   make_option('--n_cores', action = 'store', default = NA, type = 'numeric')
 )
 opt = parse_args(OptionParser(option_list = option_list))
@@ -22,7 +22,7 @@ mutability = read.table(opt$mut, header = T, stringsAsFactors = F)
 categ = colnames(mutability)[-c(1:2)]
 N1 = opt$N1
 N2 = opt$N2
-dir_out = opt$dir_out
+file_out = opt$out
 n_cores = opt$n_cores
 n_jackknife = 100
 
@@ -42,7 +42,7 @@ EncoreDNM_cross_disorders = function(y1, N1, y2, N2, mut, theta0, n_jackknife, n
   se_valid = 0
   ### inversion of Fisher information matrix to calculate standard error
   x = try(solve(-he_cross(theta_est, y1, y2, xi1, xi2, N1, N2, mut)), silent = T)
-  if(class(x) != 'try-error'){
+  if(class(x)[1] != 'try-error'){
     if( min(eigen(x)$values) > 0 & diag(x)[5] < 1){
       se_valid = 1
       theta_se = sqrt(diag(x))
@@ -75,6 +75,9 @@ EncoreDNM_cross_disorders = function(y1, N1, y2, N2, mut, theta0, n_jackknife, n
     Result = sfLapply(1:n_jackknife, apply.fun)
     sfStop()
     result = matrix(0, ncol = 5, nrow = n_jackknife)
+    for(jack_ind in 1:n_jackknife){
+      result[jack_ind, ] = Result[[jack_ind]]
+    }
     theta_se = sqrt(apply(result, 2, var) * (n_jack - 1)^2 / n_jack)
     theta_p = sapply(-abs(theta_est/theta_se), pnorm) * 2
   }
@@ -295,5 +298,5 @@ for(K in 1:length(categ)){
   
   result[K, 2:16] = EncoreDNM_cross_disorders(y1, N1, y2, N2, mut, theta0, n_jackknife, n_cores)
 }
-write.table(result, dir_out, col.names = T, row.names = F, quote = F, sep = '\t')
+write.table(result, file_out, col.names = T, row.names = F, quote = F, sep = '\t')
 

@@ -6,7 +6,7 @@ option_list = list(
   make_option('--dat', action = 'store', default = NA, type = 'character'),
   make_option('--N', action = 'store', default = NA, type = 'numeric'),
   make_option('--mut', action = 'store', default = NA, type = 'character'),
-  make_option('--dir_out', action = 'store', default = NA, type = 'character'),
+  make_option('--out', action = 'store', default = NA, type = 'character'),
   make_option('--n_cores', action = 'store', default = NA, type = 'numeric')
 )
 opt = parse_args(OptionParser(option_list = option_list))
@@ -14,7 +14,7 @@ dat = read.table(opt$dat, header = T, stringsAsFactors = F)
 mutability = read.table(opt$mut, header = T, stringsAsFactors = F)
 categ = colnames(mutability)[-c(1:2)]
 N = opt$N
-dir_out = opt$dir_out
+file_out = opt$out
 n_cores = opt$n_cores
 n_jackknife = 100
 
@@ -28,12 +28,12 @@ EncoreDNM_single_disorder = function(y, N, mut, theta0, n_jackknife, n_cores){
   xi = matrix(rnorm(G*M), nrow = G, ncol = M)
   
   re = gradient_descent_single(theta, y, xi, N, mut)
-  theta1 = re[[1]]
+  theta_est = re[[1]]
   
   se_valid = 0
   ### inversion of Fisher information matrix to calculate standard error
   x = try(solve(-he_single(theta1, y, xi, N, mut)), silent = T)
-  if(class(x) != 'try-error'){
+  if(class(x)[1] != 'try-error'){
     if( min(eigen(x)$values) > 0){
       se_valid = 1
       theta_se = sqrt(diag(x))
@@ -64,12 +64,15 @@ EncoreDNM_single_disorder = function(y, N, mut, theta0, n_jackknife, n_cores){
     Result = sfLapply(1:n_jackknife, apply.fun)
     sfStop()
     result = matrix(0, ncol = 2, nrow = n_jackknife)
+    for(jack_ind in 1:n_jackknife){
+      result[jack_ind, ] = Result[[jack_ind]]
+    }
     theta_se = sqrt(apply(result, 2, var) * (n_jack - 1)^2 / n_jack)
     theta_p = sapply(-abs(theta_est/theta_se), pnorm) * 2
   }
   
-  beta_est = theta1[1]
-  sigma_est = theta1[2]
+  beta_est = theta_est[1]
+  sigma_est = theta_est[2]
   beta_se = theta_se[1]
   sigma_se = theta_se[2]
   beta_p = theta_p[1]
@@ -192,5 +195,5 @@ for(K in 1:length(categ)){
   theta0 = c(0, 1)
   result[K, 2:9] = EncoreDNM_single_disorder(y, N, mut, theta0, n_jackknife, n_cores)
 }
-write.table(result, dir_out, col.names = T, row.names = F, quote = F, sep = '\t')
+write.table(result, file_out, col.names = T, row.names = F, quote = F, sep = '\t')
 
