@@ -67,7 +67,7 @@ EncoreDNM_single_disorder = function(y, N, mut, theta0, n_jackknife, n_cores){
     for(jack_ind in 1:n_jackknife){
       result[jack_ind, ] = Result[[jack_ind]]
     }
-    theta_se = sqrt(apply(result, 2, var) * (n_jack - 1)^2 / n_jack)
+    theta_se = sqrt(apply(result, 2, var) * (n_jackknife - 1)^2 / n_jackknife)
     theta_p = sapply(-abs(theta_est/theta_se), pnorm) * 2
   }
   
