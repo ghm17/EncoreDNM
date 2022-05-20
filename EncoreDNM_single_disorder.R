@@ -29,6 +29,7 @@ EncoreDNM_single_disorder = function(y, N, mut, theta0, n_jackknife, n_cores){
   
   re = gradient_descent_single(theta, y, xi, N, mut)
   theta_est = re[[1]]
+  fn_est = fn_single(theta_est, y, xi, N, mut)
   
   se_valid = 0
   ### inversion of Fisher information matrix to calculate standard error
@@ -77,7 +78,7 @@ EncoreDNM_single_disorder = function(y, N, mut, theta0, n_jackknife, n_cores){
   sigma_se = theta_se[2]
   beta_p = theta_p[1]
   sigma_p = theta_p[2]
-  l_alternative = fn1 - G*log(M)
+  l_alternative = fn_est - G*log(M)
   l_null = sum(y[y>0]*log(2*N*mut[y>0]) - y[y>0] + y[y>0] * log(sum(y)/(2*N*sum(mut))))
   deviance_null = 2 * (l_alternative - l_null)
   p_null = pchisq(2 * deviance_null, df = 1, lower.tail = F)
