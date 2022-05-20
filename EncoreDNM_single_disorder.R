@@ -32,7 +32,7 @@ EncoreDNM_single_disorder = function(y, N, mut, theta0, n_jackknife, n_cores){
   
   se_valid = 0
   ### inversion of Fisher information matrix to calculate standard error
-  x = try(solve(-he_single(theta1, y, xi, N, mut)), silent = T)
+  x = try(solve(-he_single(theta_est, y, xi, N, mut)), silent = T)
   if(class(x)[1] != 'try-error'){
     if( min(eigen(x)$values) > 0){
       se_valid = 1
